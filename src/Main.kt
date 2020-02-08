@@ -4,13 +4,14 @@ import kotlin.math.pow
 
 val inPrefix = "files/"
 val outPrefix = "files/out/"
-val files = arrayOf("a_example.in", "b_small.in", "c_medium.in")
+val files = arrayOf("a_example.in", "b_small.in", "c_medium.in", "d_quite_big.in", "e_also_big.in")
+val indexOffset = 0
 
 fun main() {
     files.forEachIndexed { index, it ->
-        val slices = PizzaSlices(File(inPrefix + it), File("$outPrefix$index.out"))
+        val slices = PizzaSlices(File(inPrefix + it), File("$outPrefix${index+indexOffset}.out"))
 
-        slices.bruteForce()
+        slices.greedy()
         slices.writeSolution()
     }
 }
@@ -21,7 +22,7 @@ class PizzaSlices(inFile: File, val outFile: File) {
     val target: Int
     val size: Int
 
-    lateinit var optimalFilter: Array<Boolean>
+    var optimalFilter: Array<Boolean>
     var optimalValue: Int = 0
 
     init {
@@ -33,21 +34,37 @@ class PizzaSlices(inFile: File, val outFile: File) {
         solutionFilter = Array(size) {false}
         values = Array(size) {0}
 
+        optimalFilter = solutionFilter.copyOf()
+
         (0 until size).forEach {
             values[it] = scanner.nextInt()
         }
     }
 
     fun bruteForce() {
-        val max = 2.0.pow(size).toInt()
+        val max = 2.0.pow(size).toLong()
 
         for(i in 0 until max) {
-            if(i % 10000000 == 0) {
+            if(i % 50000000 == 0.toLong()) {
                 println("${100.0 * i / max}%")
+                println("Size: $size, Target: $target")
+                println("Values: ${values.joinToString()}")
+                println("Optimal filter: ${optimalFilter.joinToString()}")
+                println("Optimal value: ${optimalValue}")
             }
 
             if(i > 0) nextSolution()
             checkOptimality()
+        }
+    }
+
+    fun greedy() {
+        for(i in (0 until size).reversed()) {
+            solutionFilter[i] = true
+
+            if(!checkOptimality()) {
+                solutionFilter[i] = false
+            }
         }
     }
 
@@ -78,13 +95,17 @@ class PizzaSlices(inFile: File, val outFile: File) {
         }
     }
 
-    private fun checkOptimality() {
+    private fun checkOptimality(): Boolean {
         val newValue = calculateValue()
 
         if(newValue in (optimalValue + 1)..target) {
             optimalValue = newValue
             optimalFilter = solutionFilter.copyOf()
+
+            return true
         }
+
+        return false
     }
 
     private fun calculateValue(): Int {

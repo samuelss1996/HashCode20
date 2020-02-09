@@ -1,10 +1,10 @@
 import kotlin.math.floor
 import kotlin.random.Random
 
-const val POPULATION_SIZE = 100
+const val POPULATION_SIZE = 1000
 const val MAX_ITERATIONS = 1000
 const val REPRODUCTION_PROBABILITY = 0.9
-const val MUTATION_PROBABILITY = 0.05
+const val MUTATION_PROBABILITY = 0.5
 const val NUM_DESCENDANTS = 2
 
 enum class GenerationStrategy{RANDOM, GREEDY}

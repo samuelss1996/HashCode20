@@ -10,9 +10,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -55,6 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1581196088788</updated>
       <workItem from="1581196091538" duration="17382000" />
+      <workItem from="1581273760482" duration="260000" />
     </task>
     <servers />
   </component>
@@ -91,13 +92,13 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="2517" height="428" key="GridCell.Tab.1.right/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581218989100" />
-    <state x="781" y="343" key="SettingsEditor" timestamp="1581196487584">
+    <state x="781" y="343" key="SettingsEditor" timestamp="1581273848530">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="781" y="343" key="SettingsEditor/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581196487584" />
-    <state x="981" y="525" key="com.intellij.ide.util.TipDialog" timestamp="1581196095061">
+    <state x="781" y="343" key="SettingsEditor/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581273848530" />
+    <state x="981" y="525" key="com.intellij.ide.util.TipDialog" timestamp="1581273761692">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="981" y="525" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581196095061" />
+    <state x="981" y="525" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581273761692" />
   </component>
 </project>

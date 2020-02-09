@@ -1,5 +1,6 @@
 import java.io.File
 import java.util.*
+import kotlin.math.abs
 
 val inPrefix = "files/"
 val outPrefix = "files/out/"
@@ -10,7 +11,7 @@ val indexOffset = 0
 fun main() {
     files.forEachIndexed { index, it ->
         val problem = Problem(File(inPrefix + it), File("$outPrefix${index+indexOffset}.out"))
-        val algorithm = Greedy(problem)
+        val algorithm = Genetics(problem)
 
         problem.writeSolution(algorithm.solve())
     }
@@ -18,6 +19,8 @@ fun main() {
 
 
 class Individual(val problem: Problem, val solution: Array<Boolean>) {
+    private val random = Random()
+
     fun copyOf(): Individual {
         return Individual(problem, solution.copyOf())
     }
@@ -30,6 +33,12 @@ class Individual(val problem: Problem, val solution: Array<Boolean>) {
         return calculateValue() <= problem.target
     }
 
+    fun randomize() {
+        for(i in solution.indices) {
+            solution[i] = random.nextBoolean()
+        }
+    }
+
     fun calculateValue(): Int {
         var value = 0
 
@@ -38,6 +47,10 @@ class Individual(val problem: Problem, val solution: Array<Boolean>) {
         }
 
         return value
+    }
+
+    fun calculateHeuristicCost(): Int {
+        return abs(calculateValue() - problem.target)
     }
 }
 

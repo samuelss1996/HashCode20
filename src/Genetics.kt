@@ -15,43 +15,35 @@ class Genetics(problem: Problem) : Algorithm(problem) {
     override fun solve(): Individual {
         var population = mutableListOf<Individual>()
 
-        println("POBLACION INICIAL")
-
         for(i in 0 until POPULATION_SIZE) {
             val generationStrategy = if(i < POPULATION_SIZE / 2) GenerationStrategy.RANDOM else GenerationStrategy.GREEDY
             val individual = this.generateIndividual(generationStrategy)
 
             population.add(individual)
-            println("INDIVIDUO $i = $individual")
         }
 
         var bestSolution = BestSolution(1, population.first())
 
         for(iteration in 1..MAX_ITERATIONS) {
-            println("\nITERACION: $iteration, SELECCION")
+            if((iteration - 1) % 10 == 0) {
+                print("${100.0 * iteration / MAX_ITERATIONS} %\r")
+            }
+
             val tournamentsWinners = this.celebrateTournaments(population)
-
-            println("\nITERACION: $iteration, CRUCE ")
             val newGeneration = this.celebrateBreedingSeason(tournamentsWinners)
-
-            println("ITERACION: $iteration, MUTACION")
             this.travelToTheNuclearPlant(newGeneration)
 
             population = population.sortedBy { it.calculateHeuristicCost() }.take(2).sortedByDescending { it.calculateHeuristicCost() }.toMutableList()
             population.addAll(newGeneration.sortedBy { it.calculateHeuristicCost() })
 
-            println("\nITERACION: $iteration, REEMPLAZO")
-            population.forEachIndexed { index, individual -> println("INDIVIDUO $index = $individual")}
-
             bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.individual.calculateHeuristicCost() })
         }
 
+        println()
         return bestSolution.individual
     }
 
     private fun generateIndividual(generationStrategy: GenerationStrategy): Individual {
-        val solution = Array(problem.size) {false}
-
         when(generationStrategy) {
             GenerationStrategy.GREEDY -> {
                 return Greedy(problem).solve()
@@ -75,7 +67,6 @@ class Genetics(problem: Problem) : Algorithm(problem) {
             val winner = minOf(participant1, participant2, compareBy { population[it].calculateHeuristicCost() })
 
             winners.add(Individual(problem, population[winner].solution.copyOf()))
-            println("\tTORNEO $tournament: $participant1 $participant2 GANA $winner")
         }
 
         return winners
@@ -89,15 +80,9 @@ class Genetics(problem: Problem) : Algorithm(problem) {
             val parent1 = population[i]
             val parent2 = population[i + 1]
 
-            println("\tCRUCE: ($i, ${i + 1})")
-            println("\t\tPADRE: = $parent1")
-            println("\t\tPADRE: = $parent2")
-
             if (random < REPRODUCTION_PROBABILITY) {
                 newGeneration.addAll(generateDescendants(parent1, parent2))
             } else {
-                println("\t\tNO SE CRUZA\n")
-
                 newGeneration.add(parent1)
                 newGeneration.add(parent2)
             }

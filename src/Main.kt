@@ -9,12 +9,16 @@ val indexOffset = 0
 
 
 fun main() {
-    files.forEachIndexed { index, it ->
-        val problem = Problem(File(inPrefix + it), File("$outPrefix${index+indexOffset}.out"))
-        val algorithm = Genetics(problem)
+    val millis = kotlin.system.measureTimeMillis {
+        files.forEachIndexed { index, it ->
+            val problem = Problem(File(inPrefix + it), File("$outPrefix${index+indexOffset}.out"))
+            val algorithm = Genetics(problem)
 
-        problem.writeSolution(algorithm.solve())
+            problem.writeSolution(algorithm.solve())
+        }
     }
+
+    println("Time: ${millis / 1000.0}")
 }
 
 

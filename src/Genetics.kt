@@ -1,3 +1,4 @@
+import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.random.Random
 
@@ -26,12 +27,13 @@ class Genetics(problem: Problem) : Algorithm(problem) {
 
         var bestSolution = BestSolution(1, population.first())
 
-        for(mut in MUTATION_PROBABILITIES) {
+        MUTATION_PROBABILITIES.forEachIndexed { mutIndex, mut ->
             MUTATION_PROBABILITY = mut
 
             for(iteration in 1..MAX_ITERATIONS) {
                 if((iteration - 1) % 10 == 0) {
-                    print("${100.0/MUTATION_PROBABILITIES.size * iteration / MAX_ITERATIONS} %\r")
+                    val percent = 100.0 * mutIndex / MUTATION_PROBABILITIES.size + (100.0 / MUTATION_PROBABILITIES.size * iteration / MAX_ITERATIONS)
+                    print("${ceil(percent).toInt()} %\r")
                 }
 
                 val tournamentsWinners = this.celebrateTournaments(population)
@@ -43,6 +45,7 @@ class Genetics(problem: Problem) : Algorithm(problem) {
 
                 bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.individual.calculateHeuristicCost() })
             }
+
         }
 
         println()

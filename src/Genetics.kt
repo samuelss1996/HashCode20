@@ -4,8 +4,10 @@ import kotlin.random.Random
 const val POPULATION_SIZE = 1000
 const val MAX_ITERATIONS = 1000
 const val REPRODUCTION_PROBABILITY = 0.9
-const val MUTATION_PROBABILITY = 0.5
 const val NUM_DESCENDANTS = 2
+
+val MUTATION_PROBABILITIES = arrayOf(0.05, 0.1, 0.25, 0.5, 0.75, 0.85)
+var MUTATION_PROBABILITY = 0.5
 
 enum class GenerationStrategy{RANDOM, GREEDY}
 data class BestSolution(val iteration: Int, val individual: Individual)
@@ -24,19 +26,23 @@ class Genetics(problem: Problem) : Algorithm(problem) {
 
         var bestSolution = BestSolution(1, population.first())
 
-        for(iteration in 1..MAX_ITERATIONS) {
-            if((iteration - 1) % 10 == 0) {
-                print("${100.0 * iteration / MAX_ITERATIONS} %\r")
+        for(mut in MUTATION_PROBABILITIES) {
+            MUTATION_PROBABILITY = mut
+
+            for(iteration in 1..MAX_ITERATIONS) {
+                if((iteration - 1) % 10 == 0) {
+                    print("${100.0/MUTATION_PROBABILITIES.size * iteration / MAX_ITERATIONS} %\r")
+                }
+
+                val tournamentsWinners = this.celebrateTournaments(population)
+                val newGeneration = this.celebrateBreedingSeason(tournamentsWinners)
+                this.travelToTheNuclearPlant(newGeneration)
+
+                population = population.sortedBy { it.calculateHeuristicCost() }.take(2).sortedByDescending { it.calculateHeuristicCost() }.toMutableList()
+                population.addAll(newGeneration.sortedBy { it.calculateHeuristicCost() })
+
+                bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.individual.calculateHeuristicCost() })
             }
-
-            val tournamentsWinners = this.celebrateTournaments(population)
-            val newGeneration = this.celebrateBreedingSeason(tournamentsWinners)
-            this.travelToTheNuclearPlant(newGeneration)
-
-            population = population.sortedBy { it.calculateHeuristicCost() }.take(2).sortedByDescending { it.calculateHeuristicCost() }.toMutableList()
-            population.addAll(newGeneration.sortedBy { it.calculateHeuristicCost() })
-
-            bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.individual.calculateHeuristicCost() })
         }
 
         println()

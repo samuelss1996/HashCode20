@@ -3,10 +3,10 @@ class Greedy(problem: Problem) : Algorithm(problem) {
 
     override fun solve() : Individual {
         for(i in (0 until problem.size).reversed()) {
-            individual.solution[i] = true
+            individual.setValue(i, true)
 
             if(!individual.isValid()) {
-                individual.solution[i] = false
+                individual.setValue(i, false)
             }
         }
 

@@ -66,7 +66,7 @@ class Genetics(problem: Problem) : Algorithm(problem) {
             val participant2 = floor(Random.nextDouble() * population.size).toInt()
             val winner = minOf(participant1, participant2, compareBy { population[it].calculateHeuristicCost() })
 
-            winners.add(Individual(problem, population[winner].solution.copyOf()))
+            winners.add(population[winner].copyOf())
         }
 
         return winners
@@ -99,10 +99,10 @@ class Genetics(problem: Problem) : Algorithm(problem) {
 
             for(j in individual.solution.indices) {
                 if(parent1.solution[j] == parent2.solution[j]) {
-                    individual.solution[j] = parent1.solution[j]
+                    individual.setValue(j, parent1.solution[j])
                 }
                 else {
-                    individual.solution[j] = Random.nextBoolean()
+                    individual.setValue(j, Random.nextBoolean())
                 }
             }
 
@@ -117,8 +117,8 @@ class Genetics(problem: Problem) : Algorithm(problem) {
             for(i in 1 until problem.size) {
                 if(!individual.solution[i - 1] && individual.solution[i]) {
                     if(Random.nextDouble() < MUTATION_PROBABILITY) {
-                        individual.solution[i - 1] = true
-                        individual.solution[i] = false
+                        individual.setValue(i - 1, true)
+                        individual.setValue(i, false)
                     }
                 }
             }

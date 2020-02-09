@@ -24,6 +24,8 @@ fun main() {
 
 class Individual(val problem: Problem, val solution: Array<Boolean>) {
     private val random = Random()
+    private var value = 0
+    private var upToDate = false
 
     fun copyOf(): Individual {
         return Individual(problem, solution.copyOf())
@@ -37,17 +39,28 @@ class Individual(val problem: Problem, val solution: Array<Boolean>) {
         return calculateValue() <= problem.target
     }
 
+    fun setValue(index: Int, value: Boolean) {
+        solution[index] = value
+        upToDate = false
+    }
+
     fun randomize() {
         for(i in solution.indices) {
             solution[i] = random.nextBoolean()
         }
+
+        upToDate = false
     }
 
     fun calculateValue(): Int {
-        var value = 0
+        if(!upToDate) {
+            value = 0
 
-        for(i in solution.indices) {
-            value += if(solution[i]) problem.values[i] else 0
+            for(i in solution.indices) {
+                value += if(solution[i]) problem.values[i] else 0
+            }
+
+            upToDate = true
         }
 
         return value
@@ -55,6 +68,10 @@ class Individual(val problem: Problem, val solution: Array<Boolean>) {
 
     fun calculateHeuristicCost(): Int {
         return abs(calculateValue() - problem.target)
+    }
+
+    fun countTrues(): Int {
+        return solution.count { it }
     }
 }
 
@@ -78,7 +95,7 @@ class Problem(inFile: File, val outFile: File) {
 
     fun writeSolution(individual: Individual) {
         outFile.printWriter().use { writer ->
-            writer.println(individual.solution.count { it })
+            writer.println(individual.countTrues())
 
             for (i in 0 until size) {
                 if (individual.solution[i]) {

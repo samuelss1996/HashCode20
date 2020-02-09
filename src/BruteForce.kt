@@ -32,11 +32,11 @@ class BruteForce(problem: Problem) : Algorithm(problem) {
 
     private fun swapFilter(position: Int) {
         if(current.solution[position]) {
-            current.solution[position] = false
+            current.setValue(position, false)
             swapFilter(position + 1)
         }
         else {
-            current.solution[position] = true
+            current.setValue(position, true)
         }
     }
 }

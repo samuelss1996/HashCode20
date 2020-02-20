@@ -1,12 +1,12 @@
-import algorithm.library.BruteForce
-import algorithm.library.Genetics
+import algorithm.library.BruteForceLibrary
+import algorithm.library.GreedyLibrary
 import java.io.File
 
 val inPrefix = "files/"
 val outPrefix = "files/out/"
 
-val filesIn = arrayOf("a_example.txt")
-val filesOut = arrayOf("a_example.out")
+val filesIn = arrayOf("a.txt", "b.txt", "c.txt", "d.txt", "e.txt", "f.txt")
+val filesOut = arrayOf("a.out", "b.out", "c.out", "d.out", "e.out", "f.out")
 
 fun main() {
     val millis = kotlin.system.measureTimeMillis {
@@ -14,7 +14,7 @@ fun main() {
             val fileIn = File(inPrefix + it)
             val fileOut = File(outPrefix + filesOut[index])
             val problem = Problem(fileIn, fileOut)
-            val algorithm = BruteForce(problem)
+            val algorithm = GreedyLibrary(problem)
 
             problem.writeSolution(algorithm.solve())
         }

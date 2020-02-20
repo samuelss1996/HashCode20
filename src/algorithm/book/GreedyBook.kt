@@ -3,7 +3,7 @@ package algorithm.book
 import Library
 import algorithm.library.LibraryAlgorithm
 
-class GreedyBookAlgorithm(algorithm: LibraryAlgorithm) : BookAlgorithm(algorithm) {
+class GreedyBook(algorithm: LibraryAlgorithm) : BookAlgorithm(algorithm) {
 
     override fun solve() {
         algorithm.libraries.forEach { library ->

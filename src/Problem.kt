@@ -62,6 +62,17 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
         }
     }
 
+    // TODO improve this because it disregards variation of scores
+    fun estimateReward(): Float {
+        var optimalTake = howManyCanScan(signupDays)
+        optimalTake = if(optimalTake > 0) optimalTake else 0
+
+        val maxScore = books.map { problem.books[it].score }.sortedDescending().take(optimalTake).sum()
+        val days = signupDays + books.size / booksPerDay
+
+        return maxScore.toFloat() / days
+    }
+
     fun howManyCanScan(idleDays: Int): Int {
         val availableDays = problem.scanningDays - idleDays
         return availableDays * booksPerDay - chosenBooks.size

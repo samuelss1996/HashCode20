@@ -3,9 +3,9 @@ package algorithm.library
 import Library
 import Problem
 import SolutionWrapper
-import algorithm.book.GreedyBookAlgorithm
+import algorithm.book.GreedyBook
 
-class BruteForce(problem: Problem) : LibraryAlgorithm(problem) {
+class BruteForceLibrary(problem: Problem) : LibraryAlgorithm(problem) {
     private var optimal: SolutionWrapper? = null
 
     override fun solve(): SolutionWrapper {
@@ -34,7 +34,7 @@ class BruteForce(problem: Problem) : LibraryAlgorithm(problem) {
     }
 
     private fun solveWithCurrentOrder(libraries: Array<Library>): SolutionWrapper {
-        GreedyBookAlgorithm(this).solve()
+        GreedyBook(this).solve()
         return SolutionWrapper(problem, libraries)
     }
 

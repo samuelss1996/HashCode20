@@ -18,4 +18,8 @@ class SolutionWrapper(val problem: Problem, val solution: Array<Library>) {
 
         return score
     }
+
+    fun calculateHeuristicCost(): Int {
+        return -calculateFinalScore()
+    }
 }

@@ -73,10 +73,11 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
         optimalScoreSd = calculateSD(optimalScoreSet.toIntArray())
     }
 
-    // TODO improve this because it disregards variation of scores
     fun estimateReward(): Float {
         val days = signupDays + books.size / booksPerDay
-        return optimalScore.toFloat() * optimalScoreSd / days
+        val reward = optimalScore.toFloat() * optimalScoreSd / days
+
+        return reward + 0.05f * Random().nextGaussian().toFloat() * reward
     }
 
     fun howManyCanScan(idleDays: Int): Int {

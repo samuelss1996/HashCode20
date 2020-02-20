@@ -51,6 +51,10 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
     //Solution
     val chosenBooks = mutableListOf<Int>()
 
+    // Heuristics
+    val optimalScore: Int
+    val optimalScoreSd: Float
+
     init {
         bookCount = scanner.nextInt()
         signupDays = scanner.nextInt()
@@ -60,17 +64,19 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
         for(i in 0 until bookCount) {
           books.add(scanner.nextInt())
         }
+
+        var optimalTake = howManyCanScan(signupDays)
+        optimalTake = if(optimalTake > 0) optimalTake else 0
+        val optimalScoreSet = books.map { problem.books[it].score }.sortedDescending().take(optimalTake)
+
+        optimalScore = optimalScoreSet.sum()
+        optimalScoreSd = calculateSD(optimalScoreSet.toIntArray())
     }
 
     // TODO improve this because it disregards variation of scores
     fun estimateReward(): Float {
-        var optimalTake = howManyCanScan(signupDays)
-        optimalTake = if(optimalTake > 0) optimalTake else 0
-
-        val maxScore = books.map { problem.books[it].score }.sortedDescending().take(optimalTake).sum()
         val days = signupDays + books.size / booksPerDay
-
-        return maxScore.toFloat() / days
+        return optimalScore.toFloat() * optimalScoreSd / days
     }
 
     fun howManyCanScan(idleDays: Int): Int {
@@ -88,6 +94,23 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
 
     fun clearBooks() {
         chosenBooks.clear()
+    }
+
+    fun calculateSD(numArray: IntArray): Float {
+        var sum = 0.0
+        var standardDeviation = 0.0
+
+        for (num in numArray) {
+            sum += num
+        }
+
+        val mean = sum / 10
+
+        for (num in numArray) {
+            standardDeviation += Math.pow(num - mean, 2.0)
+        }
+
+        return Math.sqrt(standardDeviation / 10).toFloat()
     }
 }
 

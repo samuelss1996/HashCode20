@@ -37,6 +37,8 @@ class Problem(inFile: File, val outFile: File) {
                 writer.println()
             }
         }
+
+        println("Score: ${solution.calculateFinalScore()}")
     }
 }
 

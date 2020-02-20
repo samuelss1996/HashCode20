@@ -11,12 +11,12 @@ val MUTATION_PROBABILITIES = arrayOf(0.05, 0.1, 0.25, 0.5, 0.75, 0.85)
 var MUTATION_PROBABILITY = 0.5
 
 enum class GenerationStrategy{RANDOM, GREEDY}
-data class BestSolution(val iteration: Int, val individual: Individual)
+data class BestSolution(val iteration: Int, val solutionWrapper: SolutionWrapper)
 
 class Genetics(problem: Problem) : Algorithm(problem) {
 
-    override fun solve(): Individual {
-        var population = mutableListOf<Individual>()
+    override fun solve(): SolutionWrapper {
+        var population = mutableListOf<SolutionWrapper>()
 
         for(i in 0 until POPULATION_SIZE) {
             val generationStrategy = if(i < POPULATION_SIZE / 2) GenerationStrategy.RANDOM else GenerationStrategy.GREEDY
@@ -43,23 +43,23 @@ class Genetics(problem: Problem) : Algorithm(problem) {
                 population = population.sortedBy { it.calculateHeuristicCost() }.take(2).sortedByDescending { it.calculateHeuristicCost() }.toMutableList()
                 population.addAll(newGeneration.sortedBy { it.calculateHeuristicCost() })
 
-                bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.individual.calculateHeuristicCost() })
+                bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.solutionWrapper.calculateHeuristicCost() })
             }
 
         }
 
         println()
-        return bestSolution.individual
+        return bestSolution.solutionWrapper
     }
 
-    private fun generateIndividual(generationStrategy: GenerationStrategy): Individual {
+    private fun generateIndividual(generationStrategy: GenerationStrategy): SolutionWrapper {
         when(generationStrategy) {
             GenerationStrategy.GREEDY -> {
                 return Greedy(problem).solve()
             }
 
             GenerationStrategy.RANDOM -> {
-                val individual = Individual(problem, Array(problem.size) {false})
+                val individual = SolutionWrapper(problem, Array(problem.size) {false})
                 individual.randomize()
 
                 return individual
@@ -67,8 +67,8 @@ class Genetics(problem: Problem) : Algorithm(problem) {
         }
     }
 
-    private fun celebrateTournaments(population: List<Individual>): List<Individual> {
-        val winners = mutableListOf<Individual>()
+    private fun celebrateTournaments(population: List<SolutionWrapper>): List<SolutionWrapper> {
+        val winners = mutableListOf<SolutionWrapper>()
 
         for(tournament in 0 until population.size - 2) {
             val participant1 = floor(Random.nextDouble() * population.size).toInt()
@@ -81,8 +81,8 @@ class Genetics(problem: Problem) : Algorithm(problem) {
         return winners
     }
 
-    private fun celebrateBreedingSeason(population: List<Individual>): List<Individual> {
-        val newGeneration = mutableListOf<Individual>()
+    private fun celebrateBreedingSeason(population: List<SolutionWrapper>): List<SolutionWrapper> {
+        val newGeneration = mutableListOf<SolutionWrapper>()
 
         for(i in population.indices step 2) {
             val random = Random.nextDouble()
@@ -100,11 +100,11 @@ class Genetics(problem: Problem) : Algorithm(problem) {
         return newGeneration
     }
 
-    private fun generateDescendants(parent1: Individual, parent2: Individual): List<Individual> {
-        val result = mutableListOf<Individual>()
+    private fun generateDescendants(parent1: SolutionWrapper, parent2: SolutionWrapper): List<SolutionWrapper> {
+        val result = mutableListOf<SolutionWrapper>()
 
         for(unused in 0 until NUM_DESCENDANTS) {
-            val individual = Individual(problem, Array(problem.size) {false})
+            val individual = SolutionWrapper(problem, Array(problem.size) {false})
 
             for(j in individual.solution.indices) {
                 if(parent1.solution[j] == parent2.solution[j]) {
@@ -121,7 +121,7 @@ class Genetics(problem: Problem) : Algorithm(problem) {
         return result
     }
 
-    private fun travelToTheNuclearPlant(population: List<Individual>) {
+    private fun travelToTheNuclearPlant(population: List<SolutionWrapper>) {
         population.forEachIndexed { index, individual ->
             for(i in 1 until problem.size) {
                 if(!individual.solution[i - 1] && individual.solution[i]) {

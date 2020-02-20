@@ -1,10 +1,10 @@
 import kotlin.math.pow
 
 class BruteForce(problem: Problem) : Algorithm(problem) {
-    private var current = Individual(problem, Array(problem.size) { false })
+    private var current = SolutionWrapper(problem, Array(problem.size) { false })
     private var optimal = current
 
-    override fun solve() : Individual {
+    override fun solve() : SolutionWrapper {
         val max = 2.0.pow(problem.size).toLong()
 
         for(i in 0 until max) {

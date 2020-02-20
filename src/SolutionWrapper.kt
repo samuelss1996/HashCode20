@@ -1,17 +1,17 @@
 import java.util.*
 import kotlin.math.abs
 
-class Individual(val problem: Problem, val solution: Array<Boolean>) {
+class SolutionWrapper(val problem: Problem, val solution: Array<Boolean>) {
     private val random = Random()
     private var value = 0
     private var upToDate = false
 
-    fun copyOf(): Individual {
-        return Individual(problem, solution.copyOf())
+    fun copyOf(): SolutionWrapper {
+        return SolutionWrapper(problem, solution.copyOf())
     }
 
-    fun isWorseThan(individual: Individual): Boolean {
-        return individual.calculateValue() in (calculateValue() + 1)..problem.target
+    fun isWorseThan(solutionWrapper: SolutionWrapper): Boolean {
+        return solutionWrapper.calculateValue() in (calculateValue() + 1)..problem.target
     }
 
     fun isValid(): Boolean {

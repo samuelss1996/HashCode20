@@ -1,3 +1,7 @@
+package algorithm.library
+
+import Problem
+import SolutionWrapper
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.random.Random
@@ -13,10 +17,10 @@ var MUTATION_PROBABILITY = 0.5
 enum class GenerationStrategy{RANDOM, GREEDY}
 data class BestSolution(val iteration: Int, val solutionWrapper: SolutionWrapper)
 
-class Genetics(problem: Problem) : Algorithm(problem) {
+class Genetics(problem: Problem) : LibraryAlgorithm(problem) {
 
     override fun solve(): SolutionWrapper {
-        var population = mutableListOf<SolutionWrapper>()
+        /*var population = mutableListOf<SolutionWrapper>()
 
         for(i in 0 until POPULATION_SIZE) {
             val generationStrategy = if(i < POPULATION_SIZE / 2) GenerationStrategy.RANDOM else GenerationStrategy.GREEDY
@@ -43,23 +47,28 @@ class Genetics(problem: Problem) : Algorithm(problem) {
                 population = population.sortedBy { it.calculateHeuristicCost() }.take(2).sortedByDescending { it.calculateHeuristicCost() }.toMutableList()
                 population.addAll(newGeneration.sortedBy { it.calculateHeuristicCost() })
 
-                bestSolution = minOf(bestSolution, BestSolution(iteration, population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!), compareBy { it.solutionWrapper.calculateHeuristicCost() })
+                bestSolution = minOf(bestSolution,
+                    BestSolution(
+                        iteration,
+                        population.filter { it.isValid() }.minBy { it.calculateHeuristicCost() }!!
+                    ), compareBy { it.solutionWrapper.calculateHeuristicCost() })
             }
 
         }
 
-        println()
-        return bestSolution.solutionWrapper
+        println()*/
+        //return bestSolution.solutionWrapper
+        TODO()
     }
 
-    private fun generateIndividual(generationStrategy: GenerationStrategy): SolutionWrapper {
+    /*private fun generateIndividual(generationStrategy: GenerationStrategy): SolutionWrapper {
         when(generationStrategy) {
             GenerationStrategy.GREEDY -> {
                 return Greedy(problem).solve()
             }
 
             GenerationStrategy.RANDOM -> {
-                val individual = SolutionWrapper(problem, Array(problem.size) {false})
+                val individual = SolutionWrapper(problem, Array(problem.size) { false })
                 individual.randomize()
 
                 return individual
@@ -104,7 +113,7 @@ class Genetics(problem: Problem) : Algorithm(problem) {
         val result = mutableListOf<SolutionWrapper>()
 
         for(unused in 0 until NUM_DESCENDANTS) {
-            val individual = SolutionWrapper(problem, Array(problem.size) {false})
+            val individual = SolutionWrapper(problem, Array(problem.size) { false })
 
             for(j in individual.solution.indices) {
                 if(parent1.solution[j] == parent2.solution[j]) {
@@ -132,5 +141,5 @@ class Genetics(problem: Problem) : Algorithm(problem) {
                 }
             }
         }
-    }
+    }*/
 }

@@ -1,3 +1,4 @@
+import algorithm.library.Genetics
 import java.io.File
 
 val inPrefix = "files/"

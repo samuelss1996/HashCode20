@@ -6,7 +6,7 @@ class Problem(inFile: File, val outFile: File) {
     val libraryCount: Int
     val scanningDays: Int
 
-    val scores: Array<Int>
+    val books: Array<Book>
     val libraries: Array<Library>
 
     init {
@@ -16,8 +16,8 @@ class Problem(inFile: File, val outFile: File) {
         libraryCount = scanner.nextInt()
         scanningDays = scanner.nextInt()
 
-        scores = Array(bookCount) { scanner.nextInt() }
-        libraries = Array(libraryCount) { Library(scanner) }
+        books = Array(bookCount) { Book(this, it, scanner.nextInt()) }
+        libraries = Array(libraryCount) { Library(this, it, scanner) }
     }
 
     fun writeSolution(solutionWrapper: SolutionWrapper) {
@@ -34,11 +34,14 @@ class Problem(inFile: File, val outFile: File) {
     }
 }
 
-class Library(scanner: Scanner) {
+class Library(val problem: Problem, val id: Int, scanner: Scanner) {
     val bookCount: Int
     val signupDays: Int
     val booksPerDay: Int
     val books: Array<Int>
+
+    //Solution
+    val chosenBooks = mutableListOf<Int>()
 
     init {
         bookCount = scanner.nextInt()
@@ -47,4 +50,15 @@ class Library(scanner: Scanner) {
 
         books = Array(bookCount) { scanner.nextInt() }
     }
+
+    fun howManyCanScan(idleDays: Int): Int {
+        val availableDays = problem.scanningDays - idleDays
+        return availableDays * booksPerDay
+    }
+
+    fun addBook(bookId: Int) {
+        chosenBooks.add(bookId)
+    }
 }
+
+class Book(val problem: Problem, val id: Int, val score: Int)

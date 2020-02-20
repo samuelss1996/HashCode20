@@ -28,7 +28,19 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.excludes" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="algorithm.book" />
+      <recent name="algorithm.library" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Samuel\GitHub\HashCode20\src\algorithm\library" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="MainKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
@@ -59,15 +71,27 @@
       <updated>1581196088788</updated>
       <workItem from="1581196091538" duration="17382000" />
       <workItem from="1581273760482" duration="950000" />
-      <workItem from="1582221800168" duration="715000" />
+      <workItem from="1582221800168" duration="4826000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1071" y="417" key="#com.intellij.ide.util.MemberChooser" timestamp="1582224215006">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1071" y="417" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582224215006" />
     <state x="947" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582222306311">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="947" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582222306311" />
+    <state x="1059" y="353" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1582224176452">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1059" y="353" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582224176452" />
+    <state x="1060" y="456" key="FileChooserDialogImpl" timestamp="1582223971454">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1060" y="456" key="FileChooserDialogImpl/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582223971454" />
     <state width="2517" height="428" key="GridCell.Tab.0.bottom" timestamp="1581218989100">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -100,13 +124,17 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="2517" height="428" key="GridCell.Tab.1.right/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581218989100" />
-    <state x="781" y="343" key="SettingsEditor" timestamp="1581273848530">
+    <state x="781" y="343" key="SettingsEditor" timestamp="1582226534757">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="781" y="343" key="SettingsEditor/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1581273848530" />
+    <state x="781" y="343" key="SettingsEditor/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582226534757" />
     <state x="981" y="525" key="com.intellij.ide.util.TipDialog" timestamp="1582221803727">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="981" y="525" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582221803727" />
+    <state x="313" y="172" width="1936" height="1125" key="dock-window-1" timestamp="1582225021582">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="313" y="172" width="1936" height="1125" key="dock-window-1/0.0.2560.1400/-1920.564.1920.1040@0.0.2560.1400" timestamp="1582225021582" />
   </component>
 </project>

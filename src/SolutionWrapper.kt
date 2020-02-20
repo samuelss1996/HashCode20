@@ -1,55 +1,21 @@
 import java.util.*
 import kotlin.math.abs
 
-class SolutionWrapper(val problem: Problem, val solution: Array<Boolean>) {
-    private val random = Random()
-    private var value = 0
-    private var upToDate = false
+class SolutionWrapper(val problem: Problem, val solution: Array<Library>) {
 
-    fun copyOf(): SolutionWrapper {
-        return SolutionWrapper(problem, solution.copyOf())
+    fun isBetterThan(other: SolutionWrapper?): Boolean {
+        return calculateFinalScore() > other?.calculateFinalScore() ?: 0
     }
 
-    fun isWorseThan(solutionWrapper: SolutionWrapper): Boolean {
-        return solutionWrapper.calculateValue() in (calculateValue() + 1)..problem.target
-    }
+    fun calculateFinalScore(): Int {
+        var score = 0
 
-    fun isValid(): Boolean {
-        return calculateValue() <= problem.target
-    }
-
-    fun setValue(index: Int, value: Boolean) {
-        solution[index] = value
-        upToDate = false
-    }
-
-    fun randomize() {
-        for(i in solution.indices) {
-            solution[i] = random.nextBoolean()
-        }
-
-        upToDate = false
-    }
-
-    fun calculateValue(): Int {
-        if(!upToDate) {
-            value = 0
-
-            for(i in solution.indices) {
-                value += if(solution[i]) problem.values[i] else 0
+        solution.forEach { library ->
+            library.chosenBooks.forEach { bookId ->
+                score += problem.books[bookId].score
             }
-
-            upToDate = true
         }
 
-        return value
-    }
-
-    fun calculateHeuristicCost(): Int {
-        return abs(calculateValue() - problem.target)
-    }
-
-    fun countTrues(): Int {
-        return solution.count { it }
+        return score
     }
 }

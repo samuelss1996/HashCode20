@@ -1,5 +1,6 @@
 import java.io.File
 import java.util.*
+import kotlin.collections.HashSet
 
 class Problem(inFile: File, val outFile: File) {
     val bookCount: Int
@@ -20,15 +21,20 @@ class Problem(inFile: File, val outFile: File) {
         libraries = Array(libraryCount) { Library(this, it, scanner) }
     }
 
-    fun writeSolution(solutionWrapper: SolutionWrapper) {
+    fun writeSolution(solution: SolutionWrapper) {
         outFile.printWriter().use { writer ->
-            writer.println(solutionWrapper.countTrues())
+            val libaries = solution.solution.filter { it.chosenBooks.size > 0 }
 
-            for (i in 0 until size) {
-                if (solutionWrapper.solution[i]) {
-                    writer.print(i)
-                    writer.print(" ")
-                }
+            writer.println(libaries.size)
+
+            libaries.forEach { library ->
+                writer.print(library.id)
+                writer.print(" ")
+                writer.print(library.chosenBooks.size)
+                writer.println()
+
+                writer.print(library.chosenBooks.joinToString(" "))
+                writer.println()
             }
         }
     }
@@ -38,7 +44,7 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
     val bookCount: Int
     val signupDays: Int
     val booksPerDay: Int
-    val books: Array<Int>
+    val books: HashSet<Int>
 
     //Solution
     val chosenBooks = mutableListOf<Int>()
@@ -48,16 +54,27 @@ class Library(val problem: Problem, val id: Int, scanner: Scanner) {
         signupDays = scanner.nextInt()
         booksPerDay = scanner.nextInt()
 
-        books = Array(bookCount) { scanner.nextInt() }
+        books = HashSet(bookCount)
+        for(i in 0 until bookCount) {
+          books.add(scanner.nextInt())
+        }
     }
 
     fun howManyCanScan(idleDays: Int): Int {
         val availableDays = problem.scanningDays - idleDays
-        return availableDays * booksPerDay
+        return availableDays * booksPerDay - chosenBooks.size
+    }
+
+    fun hasBookAvailable(bookId: Int): Boolean {
+        return books.contains(bookId)
     }
 
     fun addBook(bookId: Int) {
         chosenBooks.add(bookId)
+    }
+
+    fun clearBooks() {
+        chosenBooks.clear()
     }
 }
 
